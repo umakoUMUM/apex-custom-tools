@@ -61,11 +61,6 @@ class ApexImageProcessor:
         return all_fragments
 
     def _preprocess_for_ocr(self, crop):
-        """
-        【逆転の発想：完全無加工】
-        人間が加工するのをやめ、Google Vision APIに生の色情報を渡す。
-        これが最も精度が出るパターンです。
-        """
         # BGR(OpenCV)をRGB(API用)に変換するだけ
         rgb_crop = cv2.cvtColor(crop, cv2.COLOR_BGR2RGB)
         return rgb_crop

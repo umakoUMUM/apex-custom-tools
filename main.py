@@ -24,14 +24,21 @@ def run_production_flow():
         CONFIG = yaml.safe_load(f)
 
     SPREADSHEET_ID = os.getenv("SPREADSHEET_ID") or CONFIG.get('spreadsheet', {}).get('id')
-    JSON_KEY = r"C:\Users\yuya1\apex-system\credentials.json"
     
+    # 修正箇所：誰のPCでも動くように相対パスに変更
+    JSON_KEY = "credentials.json" 
+    
+    if not os.path.exists(JSON_KEY):
+        print(f"❌ エラー: {JSON_KEY} が見つかりません。")
+        return
+
     if not SPREADSHEET_ID:
         print("❌ エラー: スプレッドシートIDが設定されていません。")
         return
 
     os.makedirs(CONFIG['settings']['PROCESSED_DIR'], exist_ok=True)
 
+    # 認証
     creds = service_account.Credentials.from_service_account_file(
         JSON_KEY, 
         scopes=['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/cloud-vision']

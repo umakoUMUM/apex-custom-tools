@@ -1,0 +1,13 @@
+paths:
+  image_dir: "./screenshots"
+spreadsheet:
+  id: "1u9mkRkYcIDiWDQCYwIFJhyJvWZnC_3gx-7ZXoALix1M"
+settings:
+  base_resolution:
+    width: 1920
+    height: 1080
+  RAW_DATA_SHEET: "RawData"  # 書き込み用シート名
+  SCREENSHOTS_DIR: "screenshots"
+  PROCESSED_DIR: "screenshots/processed"
+match_settings:
+  TOTAL_TEAMS: 17

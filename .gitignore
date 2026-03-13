@@ -1,0 +1,11 @@
+# 秘密情報
+.env
+credentials.json
+
+# Python関連
+__pycache__/
+.venv/
+
+# 画像データ（本番画像が上がらないように）
+screenshots/*
+!screenshots/.gitkeep

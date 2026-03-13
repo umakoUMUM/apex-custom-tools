@@ -6,6 +6,9 @@ credentials.json
 __pycache__/
 .venv/
 
+# デバッグ用フォルダを無視
+debug_crops/
+
 # 画像データ（本番画像が上がらないように）
 screenshots/*
 !screenshots/.gitkeep

@@ -1,5 +1,6 @@
 google-cloud-vision
-gspread
-oauth2client
+google-api-python-client
 PyYAML
 python-dotenv
+opencv-python
+numpy

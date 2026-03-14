@@ -14,7 +14,7 @@ from spreadsheet_processor import ApexSpreadsheetProcessor
 load_dotenv()
 
 def run_production_flow():
-    # --- 1. 設定の読み込み ---
+    # --- 設定の読み込み ---
     CONFIG_PATH = "config.yaml"
     if not os.path.exists(CONFIG_PATH):
         print(f"❌ エラー: {CONFIG_PATH} が見つかりません。")
@@ -24,8 +24,6 @@ def run_production_flow():
         CONFIG = yaml.safe_load(f)
 
     SPREADSHEET_ID = os.getenv("SPREADSHEET_ID") or CONFIG.get('spreadsheet', {}).get('id')
-    
-    # 修正箇所：誰のPCでも動くように相対パスに変更
     JSON_KEY = "credentials.json" 
     
     if not os.path.exists(JSON_KEY):
@@ -50,7 +48,7 @@ def run_production_flow():
     ocr_proc = ApexOcrProcessor(vision_client)
     sheet_proc = ApexSpreadsheetProcessor(sheets_service, SPREADSHEET_ID)
 
-    # --- 2. 画像の順次処理 ---
+    # --- 画像の順次処理 ---
     target_dir = CONFIG['settings']['SCREENSHOTS_DIR']
     files = [f for f in os.listdir(target_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
 
@@ -69,15 +67,24 @@ def run_production_flow():
         raw_results = ocr_proc.process_all_results(fragments)
         
         final_data = []
-        for r in raw_results:
+        for i, r in enumerate(raw_results): # インデックス i を使用
             is_corrected = False
             is_anomaly = False
             
+            # --- 順位の自動補完 (ここを追加) ---
+            # 読み取った順位がスロット番号 (i+1) と異なる場合、強制的に補完してオレンジ色にする
+            expected_rank = i + 1
+            if r['rank'] != expected_rank:
+                r['rank'] = expected_rank
+                is_corrected = True
+            
+            # キル数の補正 (60 -> 9)
             if r['kills'] == 60:
                 r['kills'] = 9
                 is_corrected = True
             
-            if (r['kills'] or 0) > 20 or (r['rank'] or 0) == 0:
+            # 異常チェック
+            if (r['kills'] or 0) >= 20:
                 is_anomaly = True
 
             r.update({

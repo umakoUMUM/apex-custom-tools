@@ -2,36 +2,53 @@
 
 Apex Legendsのカスタムマッチで、スクリーンショットから戦績（順位・チーム名・キル数）を読み取って、スプレッドシートに書き込むツールです。
 
+## ✅ 動作確認済み環境 (2026/03/14 時点)
+- **ゲームバージョン**: Season 28 (または2026年3月時点の最新版)
+- **解像度**: 1920×1080 (16:9)
+- **OS**: Windows 10/11
+
 ## ⚠️ 最初に確認：解像度について
-- スクリーンショットは必ず **1920×1080** の解像度で撮影してください。
-- これ以外のサイズだと、文字を読み取る場所がズレて正しく動作しません。
+- **解像度固定**: スクリーンショットは必ず **1920×1080** で撮影してください。
+- **UI変更への対応**: ゲームのアップデートによりリザルト画面のレイアウトが変わると、文字を読み取る場所がズレて動かなくなる可能性があります。
+  - その場合は `visual_check.py` を実行して、画像が正しく切り出せているか確認してください。
+  - ズレている場合は `image_processor.py` 内の座標設定を微調整する必要があります。
 
 ## 🛠️ セットアップ手順
 
 ### 1. ツールのダウンロード
 ターミナル（PowerShellなど）を開き、以下のコマンドを順番に実行します。
-
-   # リポジトリをコピー
+   #### リポジトリをコピー
+   ``` bash
    git clone https://github.com/umakoUMUM/apex-custom-tools.git
-
-   # フォルダの中に移動
+   ```
+   #### フォルダの中に移動
+   ``` bash
    cd apex-custom-tools
+   ```
 
 ### 2. Python環境の準備
 ※パソコンにPythonが入っていない場合は、公式サイト(python.org)からインストールしてください。
 
-   # 仮想環境を作成
+   #### 仮想環境を作成
+   ``` bash
    python -m venv .venv
+   ```
 
-   # 仮想環境を有効化（Windows）
+   #### 仮想環境を有効化（Windows）
+   ``` bash
    .\\.venv\Scripts\activate
+   ```
 
 ※もし「スクリプトの実行が無効」というエラーが出たら、以下を実行してから再度 activate してください。
 
+``` bash
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+```
 
 ### 3. 必要なライブラリのインストール
+   ``` bash
    pip install -r requirements.txt
+   ```
 
 
 ### 4. Google Cloud (GCP) の設定
@@ -56,7 +73,9 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 ## 📝 使い方
 1. `screenshots` フォルダにリザルト画像（1920x1080）を入れます。
 2. プログラムを実行します。
+   ``` bash
    python main.py
+   ```
 
 3. 解析が終わると画像は自動的に `processed` フォルダに移動します。
 

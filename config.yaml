@@ -6,4 +6,4 @@ settings:
   SCREENSHOTS_DIR: "screenshots"
   PROCESSED_DIR: "screenshots/processed"
 match_settings:
-  TOTAL_TEAMS: 17
+  TOTAL_TEAMS: 18
